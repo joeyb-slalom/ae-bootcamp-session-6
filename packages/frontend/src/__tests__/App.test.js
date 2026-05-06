@@ -232,4 +232,83 @@ describe('App Component', () => {
     fireEvent.click(themToggleAfter);
     expect(localStorage.getItem('todoAppTheme')).toBe('light');
   });
+
+  test('uses saved theme from localStorage on initial render', async () => {
+    localStorageMock.setItem('todoAppTheme', 'dark');
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Add a new todo...')).toBeInTheDocument();
+    });
+
+    expect(localStorage.getItem('todoAppTheme')).toBe('dark');
+  });
+
+  test('deletes a todo via confirm dialog', async () => {
+    window.confirm = jest.fn(() => true);
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Learn React')).toBeInTheDocument();
+    });
+
+    const deleteButtons = screen.getAllByTitle('Delete todo');
+    fireEvent.click(deleteButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Delete Todo?')).toBeInTheDocument();
+    });
+
+    const confirmButton = screen.getByRole('button', { name: /Confirm/i });
+    fireEvent.click(confirmButton);
+
+    await waitFor(() => {
+      expect(screen.queryByText('Delete Todo?')).not.toBeInTheDocument();
+    });
+  });
+
+  test('cancels delete via confirm dialog', async () => {
+    window.confirm = jest.fn(() => true);
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Learn React')).toBeInTheDocument();
+    });
+
+    const deleteButtons = screen.getAllByTitle('Delete todo');
+    fireEvent.click(deleteButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Delete Todo?')).toBeInTheDocument();
+    });
+
+    const cancelButton = screen.getByRole('button', { name: /^Cancel$/i });
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(screen.queryByText('Delete Todo?')).not.toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Learn React')).toBeInTheDocument();
+  });
+
+  test('edits a todo title', async () => {
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Learn React')).toBeInTheDocument();
+    });
+
+    const editButtons = screen.getAllByTitle('Edit todo');
+    fireEvent.click(editButtons[0]);
+
+    const titleInput = screen.getByDisplayValue('Learn React');
+    fireEvent.change(titleInput, { target: { value: 'Learn React & Redux' } });
+
+    fireEvent.click(screen.getByText('Save'));
+
+    await waitFor(() => {
+      expect(screen.queryByDisplayValue('Learn React & Redux')).not.toBeInTheDocument();
+    });
+  });
 });

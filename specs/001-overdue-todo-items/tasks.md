@@ -23,7 +23,7 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 **Purpose**: Create the new `utils/` directory structure required by the feature.
 
-- [ ] T001 Create `packages/frontend/src/utils/todoUtils.js` and `packages/frontend/src/utils/__tests__/todoUtils.test.js` as empty stubs (export placeholder, empty test file) to establish directory structure
+- [X] T001 Create `packages/frontend/src/utils/todoUtils.js` and `packages/frontend/src/utils/__tests__/todoUtils.test.js` as empty stubs (export placeholder, empty test file) to establish directory structure
 
 **Checkpoint**: utils/ directory exists — foundational work and user story implementation can proceed
 
@@ -35,7 +35,7 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 **⚠️ CRITICAL**: No user story visual work can be verified without this phase complete.
 
-- [ ] T002 Add `--warning-color` CSS custom property to `packages/frontend/src/styles/theme.css` — light value: `#e65100`, dark value (inside `.dark` or `[data-theme="dark"]` selector): `#ff8f00`, following the existing token naming and selector pattern
+- [X] T002 Add `--warning-color` CSS custom property to `packages/frontend/src/styles/theme.css` — light value: `#e65100`, dark value (inside `.dark` or `[data-theme="dark"]` selector): `#ff8f00`, following the existing token naming and selector pattern
 
 **Checkpoint**: Warning color token is available — user story implementation can now begin
 
@@ -49,14 +49,14 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 ### Tests for User Story 1 ⚠️ Write FIRST — must FAIL before implementation
 
-- [ ] T003 [P] [US1] Write failing unit tests for `isOverdue()` covering: (a) incomplete + past dueDate → `true`, (b) incomplete + future dueDate → `false`, (c) incomplete + no dueDate → `false` — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
-- [ ] T004 [P] [US1] Write failing `TodoCard` tests verifying: (a) `todo-card-overdue` CSS class applied to card wrapper when overdue, (b) `⚠` badge element with `aria-label="Overdue"` rendered near due date when overdue, (c) neither class nor badge renders for a non-overdue incomplete todo — in `packages/frontend/src/components/__tests__/TodoCard.test.js`
+- [X] T003 [P] [US1] Write failing unit tests for `isOverdue()` covering: (a) incomplete + past dueDate → `true`, (b) incomplete + future dueDate → `false`, (c) incomplete + no dueDate → `false` — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
+- [X] T004 [P] [US1] Write failing `TodoCard` tests verifying: (a) `todo-card-overdue` CSS class applied to card wrapper when overdue, (b) `⚠` badge element with `aria-label="Overdue"` rendered near due date when overdue, (c) neither class nor badge renders for a non-overdue incomplete todo — in `packages/frontend/src/components/__tests__/TodoCard.test.js`
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Implement and export `isOverdue(todo, today = new Date().toISOString().slice(0, 10))` in `packages/frontend/src/utils/todoUtils.js`: return `false` if no `dueDate`, return `false` if `todo.completed` is truthy, return `todo.dueDate < today`
-- [ ] T006 [P] [US1] Add `.todo-card-overdue` CSS ruleset to `packages/frontend/src/App.css`: left-border accent using `var(--warning-color)`, due-date text color override using `var(--warning-color)`, following existing `.todo-card` selector pattern
-- [ ] T007 [US1] Update `packages/frontend/src/components/TodoCard.js`: import `isOverdue` from `../utils/todoUtils`, call `isOverdue(todo)` in render, conditionally append `todo-card-overdue` class to card wrapper, conditionally render `<span role="img" aria-label="Overdue">⚠</span>` adjacent to the due date `<p>` element
+- [X] T005 [US1] Implement and export `isOverdue(todo, today = new Date().toISOString().slice(0, 10))` in `packages/frontend/src/utils/todoUtils.js`: return `false` if no `dueDate`, return `false` if `todo.completed` is truthy, return `todo.dueDate < today`
+- [X] T006 [P] [US1] Add `.todo-card-overdue` CSS ruleset to `packages/frontend/src/App.css`: left-border accent using `var(--warning-color)`, due-date text color override using `var(--warning-color)`, following existing `.todo-card` selector pattern
+- [X] T007 [US1] Update `packages/frontend/src/components/TodoCard.js`: import `isOverdue` from `../utils/todoUtils`, call `isOverdue(todo)` in render, conditionally append `todo-card-overdue` class to card wrapper, conditionally render `<span role="img" aria-label="Overdue">⚠</span>` adjacent to the due date `<p>` element
 
 **Checkpoint**: User Story 1 is fully functional — incomplete past-due todos display the visual indicator; other todos do not
 
@@ -70,8 +70,8 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 ### Tests for User Story 2
 
-- [ ] T008 [P] [US2] Add `todoUtils.test.js` unit tests verifying `isOverdue()` returns `false` for: (a) `{ completed: 1, dueDate: '2020-01-01' }`, (b) `{ completed: true, dueDate: '2020-01-01' }` — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
-- [ ] T009 [P] [US2] Add `TodoCard.test.js` tests verifying: (a) a completed todo with a past dueDate renders without `todo-card-overdue` class and without `⚠` badge, (b) passing from completed `→` incomplete (re-render with completed=0) causes the badge to appear — in `packages/frontend/src/components/__tests__/TodoCard.test.js`
+- [X] T008 [P] [US2] Add `todoUtils.test.js` unit tests verifying `isOverdue()` returns `false` for: (a) `{ completed: 1, dueDate: '2020-01-01' }`, (b) `{ completed: true, dueDate: '2020-01-01' }` — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
+- [X] T009 [P] [US2] Add `TodoCard.test.js` tests verifying: (a) a completed todo with a past dueDate renders without `todo-card-overdue` class and without `⚠` badge, (b) passing from completed `→` incomplete (re-render with completed=0) causes the badge to appear — in `packages/frontend/src/components/__tests__/TodoCard.test.js`
 
 *(No new implementation needed — `isOverdue()` already returns false when `todo.completed` is truthy, and React re-renders `TodoCard` automatically on prop change.)*
 
@@ -87,7 +87,7 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 ### Tests for User Story 3
 
-- [ ] T010 [US3] Add `todoUtils.test.js` boundary tests using the injected `today` parameter: (a) `dueDate === today` → `false` (not overdue), (b) `dueDate` is one day before `today` → `true` (overdue), (c) default `today` parameter is injected so test is deterministic — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
+- [X] T010 [US3] Add `todoUtils.test.js` boundary tests using the injected `today` parameter: (a) `dueDate === today` → `false` (not overdue), (b) `dueDate` is one day before `today` → `true` (overdue), (c) default `today` parameter is injected so test is deterministic — in `packages/frontend/src/utils/__tests__/todoUtils.test.js`
 
 *(No new implementation needed — ISO date string comparison `dueDate < today` correctly handles the boundary, and the injectable `today` parameter makes this deterministically testable.)*
 
@@ -99,8 +99,8 @@ description: "Task list for Overdue Todo Items feature implementation"
 
 **Purpose**: Coverage gate validation and end-to-end manual smoke test.
 
-- [ ] T011 Run the full test suite from repo root (`npm test`) and verify frontend coverage report shows ≥ 80% for `packages/frontend/src`; fix any failing tests
-- [ ] T012 [P] Complete all 9 scenarios in the manual test checklist in `specs/001-overdue-todo-items/quickstart.md` (past/today/future/no-date todos, toggle complete/incomplete, edit due date, dark mode)
+- [X] T011 Run the full test suite from repo root (`npm test`) and verify frontend coverage report shows ≥ 80% for `packages/frontend/src`; fix any failing tests
+- [X] T012 [P] Complete all 9 scenarios in the manual test checklist in `specs/001-overdue-todo-items/quickstart.md` (past/today/future/no-date todos, toggle complete/incomplete, edit due date, dark mode)
 
 ---
 
