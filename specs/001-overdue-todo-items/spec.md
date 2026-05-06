@@ -17,7 +17,7 @@ A user opens their todo list and immediately sees which items are past their due
 
 **Acceptance Scenarios**:
 
-1. **Given** a todo that is incomplete and has a due date in the past, **When** the user views the todo list, **Then** that todo is visually marked as overdue (e.g., distinct color, icon, or label)
+1. **Given** a todo that is incomplete and has a due date in the past, **When** the user views the todo list, **Then** that todo is visually marked as overdue with a warning color (red/orange) and an icon badge near the due date (e.g., ⚠ or clock icon)
 2. **Given** a todo that is incomplete and has a due date in the future, **When** the user views the todo list, **Then** that todo does NOT show any overdue indicator
 3. **Given** a todo that has no due date set, **When** the user views the todo list, **Then** that todo does NOT show any overdue indicator
 
@@ -73,12 +73,13 @@ The overdue status is always based on the current date at the time the page is v
 - **FR-006**: When a todo transitions from complete to incomplete and its due date is in the past, the overdue indicator MUST be applied without requiring a page reload
 - **FR-007**: When a todo's due date is edited to a past date (while incomplete), the overdue indicator MUST be applied immediately
 - **FR-008**: When a todo's due date is edited to a future date (while incomplete and previously overdue), the overdue indicator MUST be removed immediately
-- **FR-009**: The overdue visual treatment MUST be distinguishable for users with color vision deficiencies (not rely on color alone)
+- **FR-009**: The overdue visual treatment MUST be distinguishable for users with color vision deficiencies (not rely on color alone); the implementation MUST include both a warning color (red/orange) AND an icon badge near the due date to satisfy this requirement
+- **FR-010**: The overdue determination logic MUST be implemented as a shared utility function (e.g., `isOverdue(todo)`) that can be independently unit-tested and reused across components
 
 ### Key Entities
 
 - **Todo Item**: An existing entity with a title, optional due date, and completion status. The overdue concept is derived from these existing attributes — no new stored data is required.
-- **Overdue Status**: A computed, display-only state derived by comparing a todo's due date to the current date. Not persisted; evaluated at render time.
+- **Overdue Status**: A computed, display-only state derived by comparing a todo's due date to the current date. Not persisted; evaluated at render time via a shared utility function (e.g., `isOverdue(todo)`) called by rendering components.
 
 ## Success Criteria *(mandatory)*
 
@@ -98,3 +99,10 @@ The overdue status is always based on the current date at the time the page is v
 - The visual treatment for overdue items will follow the existing UI design system and theme guidelines (light/dark mode compatible)
 - The application is a single-user desktop-focused interface; no user-specific timezone preferences need to be handled — local browser date is used
 - This feature does not introduce any filtering, sorting by overdue status, or grouping — overdue items remain in their existing display order
+
+## Clarifications
+
+### Session 2026-05-06
+
+- Q: What specific visual treatment should overdue todo items use? → A: Warning color (red/orange) + icon badge near the due date (e.g., ⚠ or clock icon); color alone is insufficient per FR-009
+- Q: Where should the overdue determination logic live in the codebase? → A: Shared utility function (e.g., `isOverdue(todo)`) called by rendering components
